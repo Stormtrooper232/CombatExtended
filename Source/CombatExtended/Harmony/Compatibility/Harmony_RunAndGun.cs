@@ -13,30 +13,31 @@ namespace CombatExtended.HarmonyCE.Compatibility
     class Harmony_Compat_RunAndGun
     {
         static readonly string logPrefix = Assembly.GetExecutingAssembly().GetName().Name + " :: ";
-        static readonly Assembly ass = AppDomain.CurrentDomain.GetAssemblies().
+        static readonly Assembly asmbly = AppDomain.CurrentDomain.GetAssemblies().
                                        SingleOrDefault(assembly => assembly.GetName().Name == "Tacticowl");
         static MethodBase targetMethod = null;
         static Type Stance_RunAndGun = null;
 
         internal static bool Prepare()
         {
-            if (ass != null)
+            if (asmbly != null)
             {
-                foreach (var t in ass.GetTypes())
+                foreach (Type modType in asmbly.GetTypes())
                 {
-                    if (t.Name == "Verb_TryStartCastOn")
+                    Log.Error(($"{logPrefix}Checking RnG type "+modType.Name));
+                    if (modType.Name == "Verb_TryStartCastOn")
                     {
-                        targetMethod = AccessTools.Method(t, "Prefix");
+                        targetMethod = AccessTools.Method(modType, "Prefix");
                     }
-                    if (t.Name == "Stance_RunAndGun")
+                    if (modType.Name == "Stance_RunAndGun")
                     {
-                        Stance_RunAndGun = t;
-                        CompAmmoUser.rgStance = t;
+                        Stance_RunAndGun = modType;
+                        CompAmmoUser.rgStance = modType;
                     }
                 }
                 if (targetMethod == null || Stance_RunAndGun == null)
                 {
-                    Log.Error($"{logPrefix}Failed to find target method while attempting to patch RunAndGun.");
+                    Log.Error($"{logPrefix}Failed to find target method while attempting to patch Tacticowl run and gun.");
                     return false;
                 }
                 return true;
@@ -49,7 +50,7 @@ namespace CombatExtended.HarmonyCE.Compatibility
 
         internal static MethodBase TargetMethod()
         {
-            Log.Message($"{logPrefix}Applying compatibility patch for {ass.FullName}");
+            Log.Message($"{logPrefix}Applying compatibility patch for {asmbly.FullName}");
             return targetMethod;
         }
 
