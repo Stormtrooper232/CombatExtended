@@ -24,19 +24,22 @@ namespace CombatExtended.HarmonyCE.Compatibility
             {
                 foreach (Type modType in asmbly.GetTypes())
                 {
-                    Log.Error(($"{logPrefix}Checking RnG type "+modType.Name));
                     if (modType.Name == "Verb_TryCastNextBurstShot")
                     {
+                        Log.Error(($"{logPrefix}Checking RnG type "+modType.Name));
                         targetMethod = AccessTools.Method(modType, "Prefix");
                     }
                     if (modType.Name == "Stance_RunAndGun")
                     {
+                        Log.Error(($"{logPrefix}Checking RnG type "+modType.Name));
                         Stance_RunAndGun = modType;
                         CompAmmoUser.rgStance = modType;
                     }
                 }
                 if (targetMethod == null || Stance_RunAndGun == null)
                 {
+                    Log.Error(($"{logPrefix} Target assembly or stance is null"));
+
                     Log.Error($"{logPrefix}Failed to find target method while attempting to patch Tacticowl run and gun.");
                     return false;
                 }
@@ -68,6 +71,7 @@ namespace CombatExtended.HarmonyCE.Compatibility
 
             foreach (var code in instructions)
             {
+                Log.Error(($"{logPrefix} code: "+code));
                 yield return code;
                 if (!patched)
                 {
