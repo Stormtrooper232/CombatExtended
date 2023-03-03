@@ -25,7 +25,7 @@ namespace CombatExtended.HarmonyCE.Compatibility
                 foreach (Type modType in asmbly.GetTypes())
                 {
                     Log.Error(($"{logPrefix}Checking RnG type "+modType.Name));
-                    if (modType.Name == "Verb_TryStartCastOn")
+                    if (modType.Name == "Verb_TryCastNextBurstShot")
                     {
                         targetMethod = AccessTools.Method(modType, "Prefix");
                     }
