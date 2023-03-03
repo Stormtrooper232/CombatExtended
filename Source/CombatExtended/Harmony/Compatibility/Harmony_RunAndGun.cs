@@ -14,7 +14,7 @@ namespace CombatExtended.HarmonyCE.Compatibility
     {
         static readonly string logPrefix = Assembly.GetExecutingAssembly().GetName().Name + " :: ";
         static readonly Assembly ass = AppDomain.CurrentDomain.GetAssemblies().
-                                       SingleOrDefault(assembly => assembly.GetName().Name == "RunAndGun");
+                                       SingleOrDefault(assembly => assembly.GetName().Name == "Tacticowl");
         static MethodBase targetMethod = null;
         static Type Stance_RunAndGun = null;
 
